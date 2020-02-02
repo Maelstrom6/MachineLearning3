@@ -35,6 +35,22 @@ from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 
+# Applying grid search
+from sklearn.model_selection import GridSearchCV
+parameters = [{"C": [1, 10, 1000], "kernel":["linear"]},
+              {"C": [1, 10, 1000], "kernel":["rbf"], "gamma":[0.5, 0.1, 0.01, 0.001]}]
+grid_search = GridSearchCV(estimator=classifier,
+                           param_grid=parameters,
+                           scoring="accuracy",
+                           cv=10,
+                           n_jobs=-1)  # n_jobs for large datasets
+grid_search = grid_search.fit(X_train, y_train)
+acc = grid_search.best_score_
+print(acc)
+par = grid_search.best_params_
+print(par)
+
+
 from matplotlib.colors import ListedColormap
 X_set, y_set = X_test, y_test
 X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop=X_set[:, 0].max() + 1, step=0.01),

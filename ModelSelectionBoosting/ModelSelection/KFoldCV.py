@@ -35,6 +35,18 @@ from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 
+# Applying k-fold cross validation
+from sklearn.model_selection import cross_val_score
+accuracies = cross_val_score(classifier, X_train, y_train, cv=10)  # n_jobs = -1 for threading
+avg = accuracies.mean()
+var = accuracies.std()
+# avg = sum(accuracies)/len(accuracies)
+# var = (sum([a*a for a in accuracies]) - avg**2)/len(accuracies)
+print(avg)
+print(var)
+
+
+
 from matplotlib.colors import ListedColormap
 X_set, y_set = X_test, y_test
 X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop=X_set[:, 0].max() + 1, step=0.01),
